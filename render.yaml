@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: chat-server
+    env: node
+    repo: <YOUR_GITHUB_REPO>
+    branch: main
+    buildCommand: "cd server && npm install"
+    startCommand: "cd server && npm run start"
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: chat-db
+          property: connectionString
+      - key: JWT_SECRET
+        value: "replace-with-secure-secret"
+  - type: web
+    name: chat-frontend
+    env: node
+    repo: <YOUR_GITHUB_REPO>
+    branch: main
+    buildCommand: "cd frontend && npm install && npm run build"
+    startCommand: "cd frontend && npm run serve"
+databases:
+  - name: chat-db
+    engine: postgres
+    plan: starter
